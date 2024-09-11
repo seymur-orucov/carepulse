@@ -11,6 +11,8 @@ import SubmitButton from "@/components/SubmitButton";
 import { useState } from "react";
 import { UserFormValidation } from "@/lib/validation";
 import router from "next/router";
+import { createUser } from "@/lib/actions/patient.actions";
+import { log } from "node:util";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -44,12 +46,12 @@ const PatientForm = () => {
     setIsLoading(true);
 
     try {
-      // const userData = { name, email, phone };
-      // const user = await createUser(userData);
-      //
-      // if (user) router.push(`/patients/${user.$id}/register`);
+      const userData = { name, email, phone };
+      const user = await createUser(userData);
+
+      if (user) await router.push(`/patients/${user.$id}/register`);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -87,8 +89,6 @@ const PatientForm = () => {
           name="phone"
           label="Phone number"
           placeholder="(555) 123-4567"
-          iconSrc="/assets/icons/email.svg"
-          iconAlt="email"
         />
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
